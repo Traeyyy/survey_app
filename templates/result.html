@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+</head>
+<body>
+    <h2>Your score: {{ score }}</h2>
+
+    <p>
+        {% if score > 15 %}
+            High stress level
+        {% else %}
+            Normal range
+        {% endif %}
+    </p>
+
+</body>
+</html>

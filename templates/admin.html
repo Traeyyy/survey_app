@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 60%;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Survey Responses</h2>
+    <h3>📊 Average Score: {{ avg }}</h3>
+
+    <canvas id="scoreChart" width="400" height="200"></canvas>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Q1</th>
+            <th>Q2</th>
+            <th>Q3</th>
+            <th>Q4</th>
+            <th>Q5</th>
+            <th>Score</th>
+        </tr>
+
+        {% for row in data %}
+        <tr>
+            {% for item in row %}
+            <td>{{ item }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- 👇 JS 一定要放在 body 里面（最好最后） -->
+    <script>
+        const data = {{ score_counts | tojson }};
+        
+        const labels = Object.keys(data);
+        const values = Object.values(data);
+
+        const ctx = document.getElementById('scoreChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Score Distribution',
+                    data: values
+                }]
+            }
+        });
+    </script>
+
+</body>
+</html>
+
